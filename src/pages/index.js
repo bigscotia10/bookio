@@ -1,124 +1,291 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function Home() {
+  const [bookTitle, setBookTitle] = useState('');
+  const [bookImage, setBookImage] = useState('');
+  const [bookDescription, setBookDescription] = useState('');
+  const [bookContent, setBookContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPages, setShowPages] = useState(false);
+  const [manualAdd, setManualAdd] = useState(false);
+  const [loadingImageIndex, setLoadingImageIndex] = useState(-1);
+
+
+
+  const descriptionPrompts = {
+    'Hey Lisa': `Eamon, a 3-year-old boy, asks Lisa questions about outdoor topics like mountains, animals, weather, and trees. The questions start with "Hey Lisa," and Lisa provides a response. Create a story with alternating pages of Eamon's questions and Lisa's answers.`,
+    'Wee Muckys Adventures': `Wee Mucky is a female West Highland Terrier who loves chasing squirrels and eating cheese. Write a story about her humorous adventures in Portland, Oregon, Cape May, New Jersey, and New York City.`,
+    'Egogo Adventures': `Egogo, a 3-year-old toddler, can transform into different animals, such as crabs, and behave like them. Create a story about his cute and funny adventures in Portland, Oregon, with his best friend BK.`,
+    'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
+    'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May, NJ Eamon goes on a long adventure to go see them in Cape May, NJ. Eamon and Papa and Tata go to the beach and play in the sand.`,
+  };
+
+  async function generateAll() {
+    // Generate content
+    await generateContent();
+
+    // Wait for a moment to make sure content is generated
+    setTimeout(async () => {
+      // Generate images for each page
+      for (let i = 0; i < bookContent.length; i++) {
+        await generateImage(i, bookContent[i].text);
+      }
+    }, 1000);
+    setShowPages(true);
+  }
+
+
+  async function generateImage(index, text) {
+    if (index < 0 || index >= bookContent.length) {
+      console.error(`Invalid index ${index} for bookContent.`);
+      return;
+    }
+    setLoadingImageIndex(index); // Set loadingImageIndex to the current page index
+
+    const prompt = `Illustrate the following scene for a children's book: ${bookContent[index].text}`;
+
+    try {
+      const response = await axios.post('https://api.openai.com/v1/images/generations', {
+        model: 'image-alpha-001',
+        prompt: prompt,
+        n: 1,
+        size: '512x512',
+        response_format: 'url',
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+        },
+      });
+
+      const imageUrl = response.data.data[0].url;
+
+      // Use the API route to fetch the image as a Data URL
+      const responseImage = await axios.get(`/api/fetch-image?url=${encodeURIComponent(imageUrl)}`);
+      const dataUrl = responseImage.data.dataUrl;
+
+      // Set book content state with new image
+      const updatedContent = [...bookContent];
+      updatedContent[index].image = dataUrl;
+      setBookContent(updatedContent);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingImageIndex(-1); // Reset loadingImageIndex when the API call is complete
+    }
+  }
+
+
+  async function generateContent() {
+    setIsLoading(true);
+    const description = bookDescription;
+    const prompt = descriptionPrompts[description] ? descriptionPrompts[description] : description;
+
+
+    try {
+      const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+        prompt: `Using the description provided, create a children's story divided into 10 sections or pages with only 2 sentences per page. The description is as follows:\n\n${prompt}\n\nSection 1: (Page 1)\n[Generate 2 sentences for Page 1]\n\nSection 2: (Page 2)\n[Generate 2 sentences for Page 2]\n\nSection 3: (Page 3)\n[Generate 2 sentences for Page 3]\n\nSection 4: (Page 4)\n[Generate 2 sentences for Page 4]\n\nSection 5: (Page 5)\n[Generate 2 sentences for Page 5]\n\nSection 6: (Page 6)\n[Generate 2 sentences for Page 6]\n\nSection 7: (Page 7)\n[Generate 2 sentences for Page 7]\n\nSection 8: (Page 8)\n[Generate 2 sentences for Page 8]\n\nSection 9: (Page 9)\n[Generate 2 sentences for Page 9]\n\nSection 10: (Page 10)\n[Generate 2 sentences for Page 10]`,
+        max_tokens: 2048,
+        n: 1,
+      }
+        , {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+
+          }
+
+        });
+
+      const story = response.data.choices[0].text;
+
+      // Remove section labels from the response text
+      const cleanedText = story.replace(/Section \d+: \(Page \d+\)\n/g, '');
+
+      const pages = cleanedText.trim().split('\n\n');
+      const parsedPages = pages.map(page => {
+        const [text, image] = page.split('\n');
+        return { text, image: image ? image.slice(7, -1) : '' };
+      });
+
+      setBookContent(parsedPages);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+    setShowPages(true);
+  }
+
+  function addPage() {
+    setBookContent([...bookContent, { text: '', image: '' }]);
+    setShowPages(true);
+  }
+
+  function updatePage(event, page) {
+    const value = event.target.value;
+    const updatedContent = [...bookContent];
+    updatedContent[page].text = value;
+    setBookContent(updatedContent);
+  }
+
+  async function downloadAsPDF() {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    // Add book title on the first page
+    pdf.setFontSize(30);
+    pdf.text(bookTitle || 'Book Title', 20, 40);
+
+    // Add book description on the second page
+    pdf.addPage();
+    pdf.setFontSize(16);
+    pdf.text(bookDescription || 'Book Description', 20, 40);
+
+    for (let i = 0; i < bookContent.length; i++) {
+      const page = document.getElementById(`page-${i}`);
+      const canvas = await html2canvas(page, { scale: 1 });
+
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+      // Add a new page for each page in bookContent except for the last page
+      if (i !== 0 || i !== bookContent.length - 1) {
+        pdf.addPage();
+      }
+
+      // Add image
+      if (bookContent[i].image) {
+        pdf.addImage(bookContent[i].image, 'JPEG', 20, 60, 100, 100);
+      } else {
+        pdf.addImage(imgData, 'JPEG', 20, 60, 100, 100);
+      }
+
+      // Add text
+      const wrappedText = pdf.splitTextToSize(bookContent[i].text, 160);
+      pdf.text(wrappedText, 20, 180);
+    }
+
+    pdf.save(`${bookTitle || 'book'}.pdf`);
+  }
+
+  function updateImage(event, page) {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageDataUrl = reader.result;
+        const updatedContent = [...bookContent];
+        updatedContent[page].image = imageDataUrl;
+        setBookContent(updatedContent);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <label htmlFor="book-title">Book Title:</label>
+      <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} />
+
+      {/* <label htmlFor="book-image">Book Image:</label>
+      {bookImage ? (
+        <img src={bookImage} alt="Book" />
+      ) : (
+        <div>
+          <input type="file" id="book-image" name="book-image" />
+          <button onClick={() => generateImage(0)}>
+            {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
+          </button>
         </div>
+      )} */}
+
+      <div>
+        <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
+          <option value="">Select a book series</option>
+          {Object.keys(descriptionPrompts).map((option, index) => (
+            <option key={index} value={option}>{option}</option>
+          ))}
+
+        </select>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <label htmlFor="book-description">Book Description:</label>
+      <input type="text" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} />
+
+      <button onClick={generateContent} disabled={isLoading}>
+        {isLoading ? (
+          // Replace "Loading..." with <ClipLoader /> if you're using react-spinners
+          "Loading..."
+        ) : (
+          "Generate Text"
+        )}
+      </button>
+      <button onClick={generateAll} disabled={isLoading}>
+        {isLoading ? "Loading..." : "Generate Entire Book"}
+      </button>
+
+      {manualAdd && (
+        <div id="book-pages">
+          {showPages && bookContent && bookContent.map((page, index) => (
+            // Add the div element with the id attribute
+            <div id={`page-${index}`} key={index}>
+              {page.image ? (
+                <img src={page.image} alt={`Page ${index + 1}`} />
+              ) : (
+                <div>
+                  <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} />
+                  <button onClick={() => generateImage(index, bookContent[index].text)}>
+                    {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
+                  </button>
+                </div>
+              )}
+              <textarea value={page.text} data-page={index + 1} onChange={event => updatePage(event, index)} />
+              {index === bookContent.length - 1 && (
+                <button onClick={addPage}>Add Page</button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <button onClick={() => {
+        if (bookContent.length === 0) {
+          setBookContent([{ text: '', image: '' }]);
+        } else {
+          setShowPages(!showPages);
+        }
+      }}>Toggle Book Pages</button>
+
+      <div id="book-pages">
+        {showPages && bookContent && bookContent.map((page, index) => (
+          // Add the div element with the id attribute
+          <div id={`page-${index}`} key={index}>
+            {/* // label for images here */}
+            {/* <label htmlFor={`page-${index}-image`}>Page {index + 1} Image:</label> */}
+            {page.image ? (
+              <img src={page.image} alt={`Page ${index + 1}`} />
+            ) : (
+              <div>
+                <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} />
+                {/* <button onClick={() => generateImage(index)}>Generate Image</button> */}
+                <button onClick={() => generateImage(index)}>
+                  {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
+                </button>
+              </div>
+            )}
+            <textarea value={page.text} data-page={index + 1} onChange={event => updatePage(event, index)} />
+            {index === bookContent.length - 1 && (
+              <button onClick={addPage}>Add Page</button>
+            )}
+          </div>
+        ))}
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      <button onClick={downloadAsPDF}>Download as PDF</button>
+    </div>
+  );
 }

@@ -1,0 +1,125 @@
+/* Set box-sizing to border-box for all elements */
+* {
+    box-sizing: border-box;
+}
+
+/* Set background color and font properties for body */
+body {
+    background-color: #ffffff;
+    /* Clean white background */
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    /* Use Roboto Google Font */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Center container and its contents vertically and horizontally */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    /* Clean white background */
+    padding: 20px;
+    /* Add some padding to separate from body */
+}
+
+/* Add spacing between buttons and style */
+button {
+    background-color: rgb(244, 87, 113);
+    color: #fff;
+    font-size: 14px;
+    /* font-weight: bold; */
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #0059cc;
+    /* Darken button color on hover */
+}
+
+/* Style input and textarea fields */
+input[type="text"],
+textarea {
+    background-color: #f5f5f5;
+    /* Light gray background */
+    border: 1px solid rgba(255, 115, 0, 0.287);
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 18px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Style input file field */
+input[type="file"] {
+    margin-top: 20px;
+}
+
+/* Style select dropdown */
+select {
+    border: 1px solid rgba(255, 115, 0, 0.287);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #f5f5f5;
+    /* Light gray background */
+    width: 100%;
+    margin-top: 20px;
+}
+
+select#description-options {
+    width: 100%;
+}
+
+/* Style labels */
+label {
+    display: block;
+    /* font-weight: bold; */
+    font-size: 22px;
+    margin-top: 20px;
+    font-weight: 550;
+    border-left: 5px solid rgb(255 113 0);
+    padding-left: 5px;
+    color: rgb(255 113 0);
+}
+
+button#download-btn {
+    background-color: #259cd7;
+}
+
+button#self-author {
+    background: #5ae25a;
+}
+
+/* Style book pages section */
+#book-pages {
+    width: 100%;
+}
+
+#book-pages>div {
+    background-color: #ffffff;
+    /* Clean white background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Set max width and responsive image properties */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px 0;
+}
