@@ -12,6 +12,8 @@ export default function Home() {
   const [showPages, setShowPages] = useState(false);
   const [manualAdd, setManualAdd] = useState(false);
   const [loadingImageIndex, setLoadingImageIndex] = useState(-1);
+  const [isContentGenerated, setIsContentGenerated] = useState(false);
+
 
 
 
@@ -24,30 +26,83 @@ export default function Home() {
   };
 
   async function generateAll() {
-    // Generate content
-    await generateContent();
-
-    // Wait for a moment to make sure content is generated
-    setTimeout(async () => {
-      // Generate images for each page
-      for (let i = 0; i < bookContent.length; i++) {
-        await generateImage(i, bookContent[i].text);
-      }
-    }, 1000);
+    setIsLoading(true); // Set loading state to true before generating images
+    // Generate images for each page
+    for (let i = 0; i < bookContent.length; i++) {
+      console.log(`Generating image for page ${i}`);
+      await generateImage(i, bookContent[i].text);
+      console.log(`Generated image for page ${i}`);
+    }
+    setIsLoading(false); // Set loading state to false after generating images
     setShowPages(true);
+  }
+
+  function removeImage(pageIndex) {
+    const updatedContent = [...bookContent];
+    updatedContent[pageIndex].image = null;
+    setBookContent(updatedContent);
+  }
+
+
+  function Page({ index, text, image, onGenerateImage, onRemoveImage }) {
+    return (
+      <div>
+        <h3>Page {index + 1}</h3>
+        <p>{text}</p>
+        {image ? (
+          <div>
+            <img src={image} alt={`Illustration for page ${index + 1}`} />
+            <button onClick={() => onRemoveImage(index)}>Remove Image</button>
+          </div>
+        ) : (
+          <button onClick={() => onGenerateImage(index, text)}>Generate Image</button>
+        )}
+      </div>
+    );
+  }
+
+
+
+  async function generateCoverImage() {
+    const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
+
+    try {
+      const response = await axios.post('https://api.openai.com/v1/images/generations', {
+        model: 'image-alpha-001',
+        prompt: prompt,
+        n: 1,
+        size: '512x512',
+        response_format: 'url',
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+        },
+      });
+
+      const imageUrl = response.data.data[0].url;
+
+      setBookImage(imageUrl);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 
   async function generateImage(index, text) {
+    console.log(`Generating image for page ${index}`);
     if (index < 0 || index >= bookContent.length) {
       console.error(`Invalid index ${index} for bookContent.`);
       return;
     }
     setLoadingImageIndex(index); // Set loadingImageIndex to the current page index
 
-    const prompt = `Illustrate the following scene for a children's book: ${bookContent[index].text}`;
+    // const prompt = `Illustrate a scene for a children's book with the following description: ${bookDescription}. On this page, ${text}`;
+    const prompt = `Illustrate a scene from a children's book. The scene is: ${text}`; // Use the "text" variable here
+
 
     try {
+      console.log('About to send axios request for image generation');
       const response = await axios.post('https://api.openai.com/v1/images/generations', {
         model: 'image-alpha-001',
         prompt: prompt,
@@ -78,6 +133,7 @@ export default function Home() {
       setLoadingImageIndex(-1); // Reset loadingImageIndex when the API call is complete
     }
   }
+
 
 
   async function generateContent() {
@@ -113,6 +169,7 @@ export default function Home() {
       });
 
       setBookContent(parsedPages);
+      setIsContentGenerated(true); // set isContentGenerated to true
     } catch (error) {
       console.error(error);
     } finally {
@@ -191,17 +248,18 @@ export default function Home() {
       <label htmlFor="book-title">Book Title:</label>
       <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} />
 
-      {/* <label htmlFor="book-image">Book Image:</label>
+      <label htmlFor="book-image">Book Image:</label>
       {bookImage ? (
         <img src={bookImage} alt="Book" />
       ) : (
         <div>
           <input type="file" id="book-image" name="book-image" />
-          <button onClick={() => generateImage(0)}>
+          <button onClick={generateCoverImage}>
             {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
           </button>
         </div>
-      )} */}
+      )}
+
 
       <div>
         <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
@@ -218,15 +276,18 @@ export default function Home() {
 
       <button onClick={generateContent} disabled={isLoading}>
         {isLoading ? (
-          // Replace "Loading..." with <ClipLoader /> if you're using react-spinners
           "Loading..."
         ) : (
           "Generate Text"
         )}
       </button>
-      <button onClick={generateAll} disabled={isLoading}>
-        {isLoading ? "Loading..." : "Generate Entire Book"}
-      </button>
+
+      {showPages && (
+        <button onClick={generateAll} disabled={bookContent.length === 0 || isLoading}>
+          {isLoading ? "Loading..." : "Generate Images"}
+        </button>
+      )}
+
 
       {manualAdd && (
         <div id="book-pages">
