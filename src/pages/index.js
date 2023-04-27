@@ -14,9 +14,6 @@ export default function Home() {
   const [loadingImageIndex, setLoadingImageIndex] = useState(-1);
   const [isContentGenerated, setIsContentGenerated] = useState(false);
 
-
-
-
   const descriptionPrompts = {
     'Hey Lisa': `Eamon, a 3-year-old boy, asks Lisa questions about outdoor topics like mountains, animals, weather, and trees. The questions start with "Hey Lisa," and Lisa provides a response. Create a story with alternating pages of Eamon's questions and Lisa's answers.`,
     'Wee Muckys Adventures': `Wee Mucky is a female West Highland Terrier who loves chasing squirrels and eating cheese. Write a story about her humorous adventures in Portland, Oregon, Cape May, New Jersey, and New York City.`,
@@ -43,7 +40,6 @@ export default function Home() {
     setBookContent(updatedContent);
   }
 
-
   function Page({ index, text, image, onGenerateImage, onRemoveImage }) {
     return (
       <div>
@@ -60,8 +56,6 @@ export default function Home() {
       </div>
     );
   }
-
-
 
   async function generateCoverImage() {
     const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
@@ -134,13 +128,10 @@ export default function Home() {
     }
   }
 
-
-
   async function generateContent() {
     setIsLoading(true);
     const description = bookDescription;
     const prompt = descriptionPrompts[description] ? descriptionPrompts[description] : description;
-
 
     try {
       const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
@@ -242,7 +233,6 @@ export default function Home() {
     }
   }
 
-
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
@@ -259,7 +249,6 @@ export default function Home() {
           </button>
         </div>
       )}
-
 
       <div>
         <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
@@ -287,7 +276,6 @@ export default function Home() {
           {isLoading ? "Loading..." : "Generate Images"}
         </button>
       )}
-
 
       {manualAdd && (
         <div id="book-pages">
