@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { db } from './firebase';
+import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 export default function Home() {
   const [bookTitle, setBookTitle] = useState('');
@@ -20,6 +23,7 @@ export default function Home() {
     'Egogo Adventures': `Egogo, a 3-year-old toddler, can transform into different animals, such as crabs, and behave like them. Create a story about his cute and funny adventures in Portland, Oregon, with his best friend BK.`,
     'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
     'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May, NJ Eamon goes on a long adventure to go see them in Cape May, NJ. Eamon and Papa and Tata go to the beach and play in the sand.`,
+    'Seaweed Monster': 'A green seaweed monster called the Waye Aye Man, who lives in the caves of Roker, Sunderland and steals peoples left over fish and chips.',
   };
 
   async function generateAll() {
@@ -233,6 +237,49 @@ export default function Home() {
     }
   }
 
+
+  async function saveBookToFirebase() {
+    try {
+      const bookRef = doc(collection(db, 'books'));
+      await setDoc(bookRef, {
+        title: bookTitle,
+        description: bookDescription,
+      });
+
+      console.log(`Book created with ID: ${bookRef.id}`);
+
+      for (const [index, page] of bookContent.entries()) {
+        console.log(`Creating page ${index}...`);
+
+        const pageRef = await addDoc(collection(bookRef, 'pages'), {
+          pageIndex: index,
+          text: page.text,
+        });
+
+        console.log(`Page ${index} created with ID: ${pageRef.id}`);
+
+        if (page.image) {
+          const storage = getStorage();
+          const imageRef = ref(storage, `books/${bookRef.id}/pages/${pageRef.id}/image`);
+          console.log(`Uploading image for page ${index}...`);
+
+          const response = await fetch(page.image);
+          const blob = await response.blob();
+          await uploadBytes(imageRef, blob);
+
+          console.log(`Image for page ${index} uploaded.`);
+        }
+      }
+
+      console.log('Book and pages saved to Firebase.');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
+
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
@@ -335,6 +382,8 @@ export default function Home() {
       </div>
 
       <button onClick={downloadAsPDF}>Download as PDF</button>
+      <button onClick={saveBookToFirebase}>Save Book</button>
+
     </div>
   );
 }
