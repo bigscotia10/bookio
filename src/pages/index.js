@@ -267,20 +267,19 @@ export default function Home() {
         if (page.image) {
           const storage = getStorage();
           const imageRef = ref(storage, `books/${bookRef.id}/pages/${pageRef.id}/image`);
-          console.log(`Uploading image for page ${index}...`);
+          // console.log(`Uploading image for page ${index}...`);
 
           const response = await fetch(page.image);
           const blob = await response.blob();
           await uploadBytes(imageRef, blob);
 
-          console.log(`Image for page ${index} uploaded.`);
+          // console.log(`Image for page ${index} uploaded.`);
         }
       }
 
       console.log('Book and pages saved to Firebase.');
 
       // Redirect to the book display page
-      debugger;
       router.push(`/book/${bookRef.id}`);
     } catch (error) {
       console.error(error);
