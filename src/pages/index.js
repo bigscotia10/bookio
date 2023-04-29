@@ -4,8 +4,10 @@ import axios from 'axios';
 // import html2canvas from 'html2canvas';
 import { db } from '../firebase';
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useRouter } from 'next/router';
+
+
 
 
 
@@ -257,38 +259,39 @@ export default function Home() {
       for (const [index, page] of bookContent.entries()) {
         console.log(`Creating page ${index}...`);
 
-        const pageRef = await addDoc(collection(bookRef, 'pages'), {
+        const pageData = {
           pageIndex: index,
           text: page.text,
-        });
-
-        console.log(`Page ${index} created with ID: ${pageRef.id}`);
+        };
 
         if (page.image) {
           const storage = getStorage();
-          const imageRef = ref(storage, `books/${bookRef.id}/pages/${pageRef.id}/image`);
-          // console.log(`Uploading image for page ${index}...`);
+          const imageRef = ref(storage, `books/${bookRef.id}/pages/${index}/image`);
 
           const response = await fetch(page.image);
           const blob = await response.blob();
           await uploadBytes(imageRef, blob);
 
-          // console.log(`Image for page ${index} uploaded.`);
+          const downloadURL = await getDownloadURL(imageRef);
+          pageData.image = downloadURL;
         }
+
+        const pageRef = await addDoc(collection(bookRef, 'pages'), pageData);
+        console.log(`Page ${index} created with ID: ${pageRef.id}`);
       }
 
-      console.log('Book and pages saved to Firebase.');
-
       // Redirect to the book display page
+      console.log('Book and pages saved to Firebase.');
       router.push(`/book/${bookRef.id}`);
     } catch (error) {
       console.error(error);
       if (error.code !== 'aborted' && error.code !== 'cancelled') {
         alert('There was an error saving the book. Please try again later.');
       }
-
     }
   }
+
+
 
 
   return (
