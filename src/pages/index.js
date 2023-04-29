@@ -5,7 +5,6 @@ import html2canvas from 'html2canvas';
 import { db } from '../firebase';
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import SavedBook from './SavedBook';
 import { useRouter } from 'next/router';
 
 
