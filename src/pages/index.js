@@ -291,9 +291,6 @@ export default function Home() {
     }
   }
 
-
-
-
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
