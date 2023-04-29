@@ -246,7 +246,27 @@ export default function Home() {
   }
 
 
+  function isAnyPageFilledIn() {
+    const [validationMessage, setValidationMessage] = useState('');
+    return bookContent.some((page) => page.text.trim() !== '');
+  }
+
   async function saveBookToFirebase() {
+    if (!bookTitle) {
+      setValidationMessage('Book title is required.');
+      return;
+    }
+
+    if (!bookDescription) {
+      setValidationMessage('Book description is required.');
+      return;
+    }
+
+    // if (!isAnyPageFilledIn()) {
+    //   setValidationMessage('At least one page must be filled in.');
+    //   return;
+    // }
+
     try {
       const bookRef = doc(collection(db, 'books'));
       await setDoc(bookRef, {
@@ -291,10 +311,13 @@ export default function Home() {
     }
   }
 
+
+
+
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
-      <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} />
+      <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} required />
 
       {/* <label htmlFor="book-image">Book Image:</label>
       {bookImage ? (
@@ -319,7 +342,7 @@ export default function Home() {
       </div>
 
       <label htmlFor="book-description">Book Description:</label>
-      <input type="text" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} />
+      <input type="text" placeholder="Describe your characters and adventure!" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
 
       <button onClick={generateContent} disabled={isLoading}>
         {isLoading ? (
@@ -393,8 +416,12 @@ export default function Home() {
       </div>
 
       {/* <button onClick={downloadAsPDF}>Download as PDF</button> */}
-      <button onClick={saveBookToFirebase}>Save Book</button>
-
+      <button
+        onClick={saveBookToFirebase}
+        disabled={!isAnyPageFilledIn() || !bookTitle || !bookDescription}
+      >
+        Save Book
+      </button>
     </div>
   );
 }

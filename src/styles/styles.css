@@ -123,3 +123,13 @@ img {
     display: block;
     margin: 20px 0;
 }
+
+button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button[disabled]:hover {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
