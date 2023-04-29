@@ -362,10 +362,10 @@ export default function Home() {
       <button onClick={() => {
         if (bookContent.length === 0) {
           setBookContent([{ text: '', image: '' }]);
-        } else {
-          setShowPages(!showPages);
         }
+        setShowPages(prevShowPages => !prevShowPages);
       }}>Toggle Book Pages</button>
+
 
       <div id="book-pages">
         {showPages && bookContent && bookContent.map((page, index) => (
