@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { db } from './firebase';
+import { db } from '../firebase';
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import SavedBook from './SavedBook';
+import { useRouter } from 'next/router';
+
+
 
 export default function Home() {
   const [bookTitle, setBookTitle] = useState('');
@@ -16,6 +20,7 @@ export default function Home() {
   const [manualAdd, setManualAdd] = useState(false);
   const [loadingImageIndex, setLoadingImageIndex] = useState(-1);
   const [isContentGenerated, setIsContentGenerated] = useState(false);
+  const router = useRouter();
 
   const descriptionPrompts = {
     'Hey Lisa': `Eamon, a 3-year-old boy, asks Lisa questions about outdoor topics like mountains, animals, weather, and trees. The questions start with "Hey Lisa," and Lisa provides a response. Create a story with alternating pages of Eamon's questions and Lisa's answers.`,
@@ -44,9 +49,9 @@ export default function Home() {
     setBookContent(updatedContent);
   }
 
-  function Page({ index, text, image, onGenerateImage, onRemoveImage }) {
+  function Page({ id, index, text, image, onGenerateImage, onRemoveImage }) {
     return (
-      <div>
+      <div key={id}>
         <h3>Page {index + 1}</h3>
         <p>{text}</p>
         {image ? (
@@ -60,6 +65,7 @@ export default function Home() {
       </div>
     );
   }
+
 
   async function generateCoverImage() {
     const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
@@ -158,10 +164,11 @@ export default function Home() {
       const cleanedText = story.replace(/Section \d+: \(Page \d+\)\n/g, '');
 
       const pages = cleanedText.trim().split('\n\n');
-      const parsedPages = pages.map(page => {
+      const parsedPages = pages.map((page, index) => {
         const [text, image] = page.split('\n');
-        return { text, image: image ? image.slice(7, -1) : '' };
+        return { id: `${index}`, text, image: image ? image.slice(7, -1) : '' };
       });
+
 
       setBookContent(parsedPages);
       setIsContentGenerated(true); // set isContentGenerated to true
@@ -272,13 +279,18 @@ export default function Home() {
       }
 
       console.log('Book and pages saved to Firebase.');
+
+      // Redirect to the book display page
+      debugger;
+      router.push(`/book/${bookRef.id}`);
     } catch (error) {
       console.error(error);
+      if (error.code !== 'aborted' && error.code !== 'cancelled') {
+        alert('There was an error saving the book. Please try again later.');
+      }
+
     }
   }
-
-
-
 
 
   return (
