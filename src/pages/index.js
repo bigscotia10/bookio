@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+// import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
 import { db } from '../firebase';
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -191,43 +191,43 @@ export default function Home() {
     setBookContent(updatedContent);
   }
 
-  async function downloadAsPDF() {
-    const pdf = new jsPDF('p', 'mm', 'a4');
+  // async function downloadAsPDF() {
+  //   const pdf = new jsPDF('p', 'mm', 'a4');
 
-    // Add book title on the first page
-    pdf.setFontSize(30);
-    pdf.text(bookTitle || 'Book Title', 20, 40);
+  //   // Add book title on the first page
+  //   pdf.setFontSize(30);
+  //   pdf.text(bookTitle || 'Book Title', 20, 40);
 
-    // Add book description on the second page
-    pdf.addPage();
-    pdf.setFontSize(16);
-    pdf.text(bookDescription || 'Book Description', 20, 40);
+  //   // Add book description on the second page
+  //   pdf.addPage();
+  //   pdf.setFontSize(16);
+  //   pdf.text(bookDescription || 'Book Description', 20, 40);
 
-    for (let i = 0; i < bookContent.length; i++) {
-      const page = document.getElementById(`page-${i}`);
-      const canvas = await html2canvas(page, { scale: 1 });
+  //   for (let i = 0; i < bookContent.length; i++) {
+  //     const page = document.getElementById(`page-${i}`);
+  //     const canvas = await html2canvas(page, { scale: 1 });
 
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+  //     const imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-      // Add a new page for each page in bookContent except for the last page
-      if (i !== 0 || i !== bookContent.length - 1) {
-        pdf.addPage();
-      }
+  //     // Add a new page for each page in bookContent except for the last page
+  //     if (i !== 0 || i !== bookContent.length - 1) {
+  //       pdf.addPage();
+  //     }
 
-      // Add image
-      if (bookContent[i].image) {
-        pdf.addImage(bookContent[i].image, 'JPEG', 20, 60, 100, 100);
-      } else {
-        pdf.addImage(imgData, 'JPEG', 20, 60, 100, 100);
-      }
+  //     // Add image
+  //     if (bookContent[i].image) {
+  //       pdf.addImage(bookContent[i].image, 'JPEG', 20, 60, 100, 100);
+  //     } else {
+  //       pdf.addImage(imgData, 'JPEG', 20, 60, 100, 100);
+  //     }
 
-      // Add text
-      const wrappedText = pdf.splitTextToSize(bookContent[i].text, 160);
-      pdf.text(wrappedText, 20, 180);
-    }
+  //     // Add text
+  //     const wrappedText = pdf.splitTextToSize(bookContent[i].text, 160);
+  //     pdf.text(wrappedText, 20, 180);
+  //   }
 
-    pdf.save(`${bookTitle || 'book'}.pdf`);
-  }
+  //   pdf.save(`${bookTitle || 'book'}.pdf`);
+  // }
 
   function updateImage(event, page) {
     const file = event.target.files && event.target.files[0];
@@ -296,7 +296,7 @@ export default function Home() {
       <label htmlFor="book-title">Book Title:</label>
       <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} />
 
-      <label htmlFor="book-image">Book Image:</label>
+      {/* <label htmlFor="book-image">Book Image:</label>
       {bookImage ? (
         <img src={bookImage} alt="Book" />
       ) : (
@@ -306,7 +306,7 @@ export default function Home() {
             {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
           </button>
         </div>
-      )}
+      )} */}
 
       <div>
         <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
@@ -344,7 +344,7 @@ export default function Home() {
                 <img src={page.image} alt={`Page ${index + 1}`} />
               ) : (
                 <div>
-                  <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} />
+                  {/* <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} /> */}
                   <button onClick={() => generateImage(index, bookContent[index].text)}>
                     {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
                   </button>
@@ -377,7 +377,7 @@ export default function Home() {
               <img src={page.image} alt={`Page ${index + 1}`} />
             ) : (
               <div>
-                <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} />
+                {/* <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} /> */}
                 {/* <button onClick={() => generateImage(index)}>Generate Image</button> */}
                 <button onClick={() => generateImage(index)}>
                   {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
@@ -392,7 +392,7 @@ export default function Home() {
         ))}
       </div>
 
-      <button onClick={downloadAsPDF}>Download as PDF</button>
+      {/* <button onClick={downloadAsPDF}>Download as PDF</button> */}
       <button onClick={saveBookToFirebase}>Save Book</button>
 
     </div>
