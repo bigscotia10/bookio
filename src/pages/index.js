@@ -316,8 +316,7 @@ export default function Home() {
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
-      <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} required />
-
+      <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
       {/* <label htmlFor="book-image">Book Image:</label>
       {bookImage ? (
         <img src={bookImage} alt="Book" />
