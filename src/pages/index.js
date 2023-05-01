@@ -28,11 +28,11 @@ export default function Home() {
     'Wee Muckys Adventures': `Wee Mucky is a female West Highland Terrier who loves chasing squirrels and eating cheese. Write a story about her humorous adventures in Portland, Oregon, Cape May, New Jersey, and New York City.`,
     'Egogo Adventures': `Egogo, a 3-year-old toddler, can transform into different animals, such as crabs, and behave like them. Create a story about his cute and funny adventures in Portland, Oregon, with his best friend BK.`,
     'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
-    'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May, NJ Eamon goes on a long adventure to go see them in Cape May, NJ. Eamon and Papa and Tata go to the beach and play in the sand.`,
+    'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May. Eamon goes to visit Papa and Tata and they go on fun adventures to the beach and to find shells and spot dolphins.`,
     'Seaweed Monster': 'A green seaweed monster called the Waye Aye Man, who lives in the caves of Roker, Sunderland and steals peoples left over fish and chips.',
-    'Porsche the Speedster: The Race to Save the Forest': 'Porsche, a little car named Speedster, is a brave and adventurous car that loves to drive through the forest. One day, Speedster discovers that the forest is in danger of being destroyed by an evil construction company. Speedster must rally his friends, including a wise old tree, a clever squirrel, and a caring deer, to save their beloved forest. Together, they must figure out how to win a race against time and the construction crew to protect their home.',
-    'Super Fast: The Volcano Express Adventure': 'In a world where trains are the primary mode of transportation, theres one train that stands above the rest: Super Fast, the fastest train ever built. Super Fasts mission is to deliver essential supplies to communities near dangerous volcanoes. When a new volcano threatens to erupt, Super Fast must embark on its most daring adventure yet. Along the journey, the train meets a cast of colorful characters, including a brave geologist, a resourceful mechanic, and a family of adorable lava creatures, who teach the train about teamwork, courage, and the importance of helping others.',
-    'Spyker Jet: The Mysterious Mountain Mission': 'Spyker Jet is an extraordinary airplane with a talent for flying through the treacherous mountain ranges of Scotland. When the people of a remote village find themselves in danger due to a strange occurrence in the mountains, they call upon Spyker Jet for help. As Spyker Jet flies through the towering peaks and narrow valleys, he uncovers a hidden world of mythical creatures, ancient secrets, and forgotten treasures. Together with his new friends, a wise old owl, a daring mountain goat, and a fearless young pilot, Spyker Jet must solve the mystery of the mountains and save the village before its too late.',
+    'Porsche the Speedster': 'Porsche, a little car named Speedster, is a brave and adventurous car that loves to drive through super fast helping people kids get to the toy shop faster than ever before.',
+    'Super Fast: The Train': 'In a world where toy trains transform into lifesize trains: Super Fast, the fastest train ever built. Super Fasts mission is to held toddlers find hidden chocolate in the secret island of Chocoslania',
+    'Spyker Jet: The Scottish Sheep Saving Hero': 'Spyker Jet is a kids toy airplane that toddlers can fly around the highlands of scotland helping the local lost sheep find their way home.',
   };
 
   async function generateAll() {
@@ -70,31 +70,30 @@ export default function Home() {
     );
   }
 
+  // async function generateCoverImage() {
+  //   const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
 
-  async function generateCoverImage() {
-    const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
+  //   try {
+  //     const response = await axios.post('https://api.openai.com/v1/images/generations', {
+  //       model: 'image-alpha-001',
+  //       prompt: prompt,
+  //       n: 1,
+  //       size: '512x512',
+  //       response_format: 'url',
+  //     }, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+  //       },
+  //     });
 
-    try {
-      const response = await axios.post('https://api.openai.com/v1/images/generations', {
-        model: 'image-alpha-001',
-        prompt: prompt,
-        n: 1,
-        size: '512x512',
-        response_format: 'url',
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-        },
-      });
+  //     const imageUrl = response.data.data[0].url;
 
-      const imageUrl = response.data.data[0].url;
-
-      setBookImage(imageUrl);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //     setBookImage(imageUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
 
   async function generateImage(index, text) {
@@ -105,8 +104,8 @@ export default function Home() {
     }
     setLoadingImageIndex(index); // Set loadingImageIndex to the current page index
 
-    // const prompt = `Illustrate a scene for a children's book with the following description: ${bookDescription}. On this page, ${text}`;
-    const prompt = `Illustrate a scene from a children's book. The scene is: ${text}`; // Use the "text" variable here
+    const prompt = `Illustrate a scene for a children's book with the following description: ${bookDescription}. On this page, ${text}`;
+    // const prompt = `Illustrate a scene from a children's book. The scene is: ${text}`; // Use the "text" variable here
 
 
     try {
@@ -314,9 +313,6 @@ export default function Home() {
     }
   }
 
-
-
-
   return (
     <div>
       <label htmlFor="book-title">Book Title:</label>
@@ -405,9 +401,9 @@ export default function Home() {
               <div>
                 {/* <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} /> */}
                 {/* <button onClick={() => generateImage(index)}>Generate Image</button> */}
-                <button onClick={() => generateImage(index)}>
+                {/* <button onClick={() => generateImage(index)}>
                   {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
-                </button>
+                </button> */}
               </div>
             )}
             <textarea value={page.text} data-page={index + 1} onChange={event => updatePage(event, index)} />
