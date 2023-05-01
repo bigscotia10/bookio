@@ -6,10 +6,9 @@ import { db } from '../firebase';
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useRouter } from 'next/router';
-
-
-
-
+import Header from './components/Header';
+import Menu from './components/Menu';
+import Footer from './components/Footer';
 
 export default function Home() {
   const [bookTitle, setBookTitle] = useState('');
@@ -69,32 +68,6 @@ export default function Home() {
       </div>
     );
   }
-
-  // async function generateCoverImage() {
-  //   const prompt = `Illustrate the cover of a children's book titled "${bookTitle}" with the following description: ${bookDescription}`;
-
-  //   try {
-  //     const response = await axios.post('https://api.openai.com/v1/images/generations', {
-  //       model: 'image-alpha-001',
-  //       prompt: prompt,
-  //       n: 1,
-  //       size: '512x512',
-  //       response_format: 'url',
-  //     }, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-  //       },
-  //     });
-
-  //     const imageUrl = response.data.data[0].url;
-
-  //     setBookImage(imageUrl);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
 
   async function generateImage(index, text) {
     console.log(`Generating image for page ${index}`);
@@ -156,9 +129,7 @@ export default function Home() {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-
           }
-
         });
 
       const story = response.data.choices[0].text;
@@ -171,7 +142,6 @@ export default function Home() {
         const [text, image] = page.split('\n');
         return { id: `${index}`, text, image: image ? image.slice(7, -1) : '' };
       });
-
 
       setBookContent(parsedPages);
       setIsContentGenerated(true); // set isContentGenerated to true
@@ -194,44 +164,6 @@ export default function Home() {
     updatedContent[page].text = value;
     setBookContent(updatedContent);
   }
-
-  // async function downloadAsPDF() {
-  //   const pdf = new jsPDF('p', 'mm', 'a4');
-
-  //   // Add book title on the first page
-  //   pdf.setFontSize(30);
-  //   pdf.text(bookTitle || 'Book Title', 20, 40);
-
-  //   // Add book description on the second page
-  //   pdf.addPage();
-  //   pdf.setFontSize(16);
-  //   pdf.text(bookDescription || 'Book Description', 20, 40);
-
-  //   for (let i = 0; i < bookContent.length; i++) {
-  //     const page = document.getElementById(`page-${i}`);
-  //     const canvas = await html2canvas(page, { scale: 1 });
-
-  //     const imgData = canvas.toDataURL('image/jpeg', 1.0);
-
-  //     // Add a new page for each page in bookContent except for the last page
-  //     if (i !== 0 || i !== bookContent.length - 1) {
-  //       pdf.addPage();
-  //     }
-
-  //     // Add image
-  //     if (bookContent[i].image) {
-  //       pdf.addImage(bookContent[i].image, 'JPEG', 20, 60, 100, 100);
-  //     } else {
-  //       pdf.addImage(imgData, 'JPEG', 20, 60, 100, 100);
-  //     }
-
-  //     // Add text
-  //     const wrappedText = pdf.splitTextToSize(bookContent[i].text, 160);
-  //     pdf.text(wrappedText, 20, 180);
-  //   }
-
-  //   pdf.save(`${bookTitle || 'book'}.pdf`);
-  // }
 
   function updateImage(event, page) {
     const file = event.target.files && event.target.files[0];
@@ -263,11 +195,6 @@ export default function Home() {
     }
 
     setIsLoading(true); // Set loading state to true before saving
-
-    // if (!isAnyPageFilledIn()) {
-    //   setValidationMessage('At least one page must be filled in.');
-    //   return;
-    // }
 
     try {
       const bookRef = doc(collection(db, 'books'));
@@ -315,20 +242,10 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
+      <Menu />
       <label htmlFor="book-title">Book Title:</label>
       <input type="text" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
-      {/* <label htmlFor="book-image">Book Image:</label>
-      {bookImage ? (
-        <img src={bookImage} alt="Book" />
-      ) : (
-        <div>
-          <input type="file" id="book-image" name="book-image" />
-          <button onClick={generateCoverImage}>
-            {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
-          </button>
-        </div>
-      )} */}
-
       <div>
         <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
           <option value="">Select a book series</option>
@@ -398,11 +315,7 @@ export default function Home() {
               <img src={page.image} alt={`Page ${index + 1}`} />
             ) : (
               <div>
-                {/* <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} /> */}
-                {/* <button onClick={() => generateImage(index)}>Generate Image</button> */}
-                {/* <button onClick={() => generateImage(index)}>
-                  {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
-                </button> */}
+
               </div>
             )}
             <textarea value={page.text} data-page={index + 1} onChange={event => updatePage(event, index)} />
@@ -420,6 +333,7 @@ export default function Home() {
       >
         {isLoading ? 'Loading...' : 'Save Book'}
       </button>
+      <Footer />
     </div>
   );
 }

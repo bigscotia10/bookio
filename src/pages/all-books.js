@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import Link from 'next/link';
+import Header from './components/Header';
+import Menu from './components/Menu';
+import Footer from './components/Footer';
 
 function AllBooks() {
     const [books, setBooks] = useState([]);
@@ -40,6 +43,8 @@ function AllBooks() {
 
     return (
         <div>
+            <Header />
+            <Menu />
             <h1>All Books</h1>
             <div>
                 {books.map((book) => (
@@ -56,6 +61,7 @@ function AllBooks() {
                     </div>
                 ))}
             </div>
+            <Footer />
         </div>
     );
 }
