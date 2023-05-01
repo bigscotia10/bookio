@@ -180,3 +180,32 @@ h1.logo-name {
     font-weight: 300;
     font-size: 18px;
 }
+
+/* book page */
+.styles\.pageContent {
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.styles\.pageContent img {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: white;
+}
+
+.styles\.pageContent h2 {
+    font-size: 11px;
+    color: rgb(255 51 116);
+}
+
+.styles\.pageContent p {
+    font-size: 25px;
+}
+
+p.styles\.bookDescription {
+    background: rgb(255 51 116);
+    color: #fff;
+    padding: 10px;
+}

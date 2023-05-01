@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router';
 import BookPage from '../components/BookPage';
+import Header from '../components/Header';
+import Menu from '../components/Menu';
+import Footer from '../components/Footer';
 import { db } from '../../firebase'; // Import the Firestore instance
 import { collection, doc, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
+import styles from './Book.module.css'; // Import the CSS module for this page
 
 export default function Book({ book }) {
     const router = useRouter();
@@ -10,7 +14,22 @@ export default function Book({ book }) {
         return <div>Loading...</div>;
     }
 
-    return <BookPage book={book} />;
+    return (
+        <>
+            <header className={styles.headerSection}>
+                <Header />
+            </header>
+            <nav className={styles.menuSection}>
+                <Menu />
+            </nav>
+            <main className={styles.bookPageSection}>
+                <BookPage book={book} />
+            </main>
+            <footer className={styles.footerSection}>
+                <Footer />
+            </footer>
+        </>
+    );
 }
 
 export async function getServerSideProps({ params }) {

@@ -1,9 +1,12 @@
 import React from 'react';
+import ShareButtons from '../components/ShareButtons';
 
 const Footer = () => {
     return (
         <footer>
-            <p>&copy; Beanbook</p>
+            <>
+                <ShareButtons />
+            </>
         </footer>
     );
 };
