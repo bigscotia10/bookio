@@ -30,6 +30,9 @@ export default function Home() {
     'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
     'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May, NJ Eamon goes on a long adventure to go see them in Cape May, NJ. Eamon and Papa and Tata go to the beach and play in the sand.`,
     'Seaweed Monster': 'A green seaweed monster called the Waye Aye Man, who lives in the caves of Roker, Sunderland and steals peoples left over fish and chips.',
+    'Porsche the Speedster: The Race to Save the Forest': 'Porsche, a little car named Speedster, is a brave and adventurous car that loves to drive through the forest. One day, Speedster discovers that the forest is in danger of being destroyed by an evil construction company. Speedster must rally his friends, including a wise old tree, a clever squirrel, and a caring deer, to save their beloved forest. Together, they must figure out how to win a race against time and the construction crew to protect their home.',
+    'Super Fast: The Volcano Express Adventure': 'In a world where trains are the primary mode of transportation, theres one train that stands above the rest: Super Fast, the fastest train ever built. Super Fasts mission is to deliver essential supplies to communities near dangerous volcanoes. When a new volcano threatens to erupt, Super Fast must embark on its most daring adventure yet. Along the journey, the train meets a cast of colorful characters, including a brave geologist, a resourceful mechanic, and a family of adorable lava creatures, who teach the train about teamwork, courage, and the importance of helping others.',
+    'Spyker Jet: The Mysterious Mountain Mission': 'Spyker Jet is an extraordinary airplane with a talent for flying through the treacherous mountain ranges of Scotland. When the people of a remote village find themselves in danger due to a strange occurrence in the mountains, they call upon Spyker Jet for help. As Spyker Jet flies through the towering peaks and narrow valleys, he uncovers a hidden world of mythical creatures, ancient secrets, and forgotten treasures. Together with his new friends, a wise old owl, a daring mountain goat, and a fearless young pilot, Spyker Jet must solve the mystery of the mountains and save the village before its too late.',
   };
 
   async function generateAll() {
@@ -260,6 +263,8 @@ export default function Home() {
       return;
     }
 
+    setIsLoading(true); // Set loading state to true before saving
+
     // if (!isAnyPageFilledIn()) {
     //   setValidationMessage('At least one page must be filled in.');
     //   return;
@@ -416,9 +421,9 @@ export default function Home() {
       {/* <button onClick={downloadAsPDF}>Download as PDF</button> */}
       <button
         onClick={saveBookToFirebase}
-        disabled={!isAnyPageFilledIn() || !bookTitle || !bookDescription}
+        disabled={!isAnyPageFilledIn() || !bookTitle || !bookDescription || isLoading}
       >
-        Save Book
+        {isLoading ? 'Loading...' : 'Save Book'}
       </button>
     </div>
   );
