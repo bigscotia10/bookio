@@ -1,5 +1,5 @@
-// Menu.js
 import React from 'react';
+import Link from 'next/link';
 
 const Menu = () => {
     return (
@@ -7,14 +7,14 @@ const Menu = () => {
             <h1 className="logo-name">Beanbook</h1>
             <ul className="menu-ul">
                 <li className="menu-li">
-                    <a className="menu-a" href="/">
+                    <Link href="/" className="menu-a">
                         Create Book
-                    </a>
+                    </Link>
                 </li>
                 <li className="menu-li">
-                    <a className="menu-a" href="/all-books">
+                    <Link href="/all-books" className="menu-a">
                         All Books
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </nav>
