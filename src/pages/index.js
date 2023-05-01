@@ -245,9 +245,7 @@ export default function Home() {
     }
   }
 
-
   function isAnyPageFilledIn() {
-    const [validationMessage, setValidationMessage] = useState('');
     return bookContent.some((page) => page.text.trim() !== '');
   }
 
@@ -342,7 +340,7 @@ export default function Home() {
       </div>
 
       <label htmlFor="book-description">Book Description:</label>
-      <input type="text" placeholder="Describe your characters and adventure!" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
+      <input type="text" placeholder="Describe your story!" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
 
       <button onClick={generateContent} disabled={isLoading}>
         {isLoading ? (
