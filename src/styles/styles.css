@@ -278,7 +278,7 @@ a.menu-a:hover {
         font-size: 12px;
         font-weight: 400;
         padding: 10px 20px;
-        position: relative;
+        position: unset;
         transition: all 0.3s ease;
         text-decoration: none;
         text-transform: uppercase;
