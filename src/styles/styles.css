@@ -266,7 +266,19 @@ a.menu-a:hover {
 /* This media query applies styles for screens with a max-width of 767px, typically mobile devices */
 @media (max-width: 767px) {
     .logo-image {
-        height: 40px;
+        height: 60px;
         /* Smaller height for mobile devices */
+        position: relative;
     }
+
+    label {
+        display: block;
+        /* font-weight: bold; */
+        font-size: 30px;
+    }
+}
+
+.ShareButtons_shareButtons__Y_Yiu {
+    font-size: 35px;
+    margin-top: 25px;
 }

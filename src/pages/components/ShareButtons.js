@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import styles from './ShareButtons.module.css';
 
 const ShareButtons = () => {
@@ -13,7 +15,7 @@ const ShareButtons = () => {
                 rel="noopener noreferrer"
                 className={styles.facebook}
             >
-                Share on Facebook
+                <FontAwesomeIcon icon={faFacebook} />
             </a>
             <a
                 href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
@@ -21,7 +23,7 @@ const ShareButtons = () => {
                 rel="noopener noreferrer"
                 className={styles.twitter}
             >
-                Share on Twitter
+                <FontAwesomeIcon icon={faTwitter} />
             </a>
             <a
                 href={`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=My%20App%20Title&summary=${shareText}`}
@@ -29,7 +31,7 @@ const ShareButtons = () => {
                 rel="noopener noreferrer"
                 className={styles.linkedin}
             >
-                Share on LinkedIn
+                <FontAwesomeIcon icon={faLinkedin} />
             </a>
         </div>
     );
