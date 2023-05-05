@@ -251,9 +251,11 @@ a.menu-a:hover {
     position: absolute;
     top: 0;
     right: 0;
-    height: 100px;
     /* Adjust the height as needed */
     width: auto;
+    margin: 10px;
+    width: 245px;
+    height: 138px;
 }
 
 /* This media query applies styles for screens with a max-width of 767px, typically mobile devices */
@@ -291,6 +293,10 @@ a.menu-a:hover {
         display: block;
         /* font-weight: bold; */
         font-size: 30px;
+    }
+
+    .logo-image {
+        margin-top: 30px;
     }
 }
 
@@ -348,4 +354,8 @@ h2 a {
 p.styles\.bookDescription {
     background-color: transparent;
     color: #ffffff;
+}
+
+h1.styles\.bookTitle {
+    max-width: 980px;
 }
