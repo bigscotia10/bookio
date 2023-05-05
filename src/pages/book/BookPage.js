@@ -1,5 +1,10 @@
 import React from 'react';
 import styles from './Book.module.css'; // Import the CSS module for this page
+import Header from '../components/Header';
+import Menu from '../components/Menu';
+import Footer from '../components/Footer';
+
+// Rest of your BookPage.js code...
 
 
 export default function BookPage({ book }) {
