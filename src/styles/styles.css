@@ -270,21 +270,18 @@ a.menu-a:hover {
 
     a.menu-a {
         color: #ac7ff4;
-        font-size: 16px;
+        font-size: 11px;
         cursor: pointer;
-        margin-top: 20px;
         transition: background-color 0.3s ease;
-        margin-left: 10px;
         font-weight: 400;
+        margin: 1px;
     }
 
     a.menu-a:hover {
         color: #ffffff;
-        font-size: 16px;
+        font-size: 14px;
         cursor: pointer;
-        margin-top: 20px;
         transition: background-color 0.3s ease;
-        margin-left: 10px;
         font-weight: 400;
     }
 
@@ -293,10 +290,13 @@ a.menu-a:hover {
         display: block;
         /* font-weight: bold; */
         font-size: 30px;
+        margin-top: 45px;
     }
 
     .logo-image {
-        margin-top: 30px;
+        width: 144px;
+        height: 80px;
+        margin-top: 43px;
     }
 }
 
