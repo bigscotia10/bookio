@@ -387,3 +387,14 @@ p.styles\.bookDescription {
 h1.styles\.bookTitle {
     max-width: 980px;
 }
+
+footer p {
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+
+footer p a {
+    text-align: center;
+    color: #ccc;
+}

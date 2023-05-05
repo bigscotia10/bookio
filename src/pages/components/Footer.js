@@ -6,6 +6,7 @@ const Footer = () => {
         <footer>
             <>
                 <ShareButtons />
+                <p>App by <a href="https://appai.dev">https://appai.dev</a></p>
             </>
         </footer>
     );
