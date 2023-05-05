@@ -1,0 +1,48 @@
+.container {
+    /* Your container styles here */
+}
+
+.header {
+    /* Your header styles here */
+}
+
+.menu {
+    /* Your menu styles here */
+}
+
+.title {
+    /* Your title styles here */
+}
+
+.bookContainer {
+    margin: 1rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+}
+
+.full_width_image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+.description {
+    /* Your description styles here */
+}
+
+/* h2 {
+    font-size: 5rem;
+    font-weight: 300;
+    background: linear-gradient(231deg, rgb(24, 182, 246), rgb(73, 208, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 3px rgb(29 82 231 / 10%);
+} */
+
+.bookContainer:after {
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 40px;
+}

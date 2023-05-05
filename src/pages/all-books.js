@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
+import styles from './AllBook.module.css'; // Import the CSS module for this page
 
 function AllBooks() {
     const [books, setBooks] = useState([]);
@@ -42,26 +43,36 @@ function AllBooks() {
     }, []);
 
     return (
-        <div>
-            <Header />
-            <Menu />
-            <h1>All Books</h1>
+        <div className={styles.container}>
+            <header className={styles.header}>
+                <Header />
+            </header>
+            <nav className={styles.menu}>
+                <Menu />
+            </nav>
+            <h1 className={styles.title}>All Books</h1>
             <div>
                 {books.map((book) => (
-                    <div key={book.id} style={{ margin: '1rem', border: '1px solid #ccc', padding: '1rem' }}>
+                    <div key={book.id} className={styles.bookContainer}>
                         <h2>
                             <Link href={`/book/${book.id}`}>
                                 {book.title}
                             </Link>
                         </h2>
                         {book.firstPage && book.firstPage.image && (
-                            <img src={book.firstPage.image} alt={`Illustration for the first page of ${book.title}`} style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }} />
+                            <img
+                                src={book.firstPage.image}
+                                alt={`Illustration for the first page of ${book.title}`}
+                                className={styles.full_width_image}
+                            />
                         )}
-                        <p>{book.description}</p>
+                        <p className={styles.description}>{book.description}</p>
                     </div>
                 ))}
             </div>
-            <Footer />
+            <footer>
+                <Footer />
+            </footer>
         </div>
     );
 }

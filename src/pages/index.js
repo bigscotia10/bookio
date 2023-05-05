@@ -245,10 +245,10 @@ export default function Home() {
       <Header />
       <Menu />
       <label htmlFor="book-title">Book Title:</label>
-      <input type="text" placeholder="Please enter your books title here" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
+      <input type="text" placeholder="What's your book title?" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
       <div>
         <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
-          <option value="">Prefer a predefined book description? Select here</option>
+          <option value="">Optional, Pick a story idea</option>
           {Object.keys(descriptionPrompts).map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
@@ -257,7 +257,7 @@ export default function Home() {
       </div>
 
       <label htmlFor="book-description">Book Description:</label>
-      <input type="text" placeholder="Please enter a brief summary of your story here" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
+      <input type="text" placeholder="Tell us all about your book!" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
 
       <button onClick={generateContent} disabled={isLoading}>
         {isLoading ? (

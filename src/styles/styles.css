@@ -5,17 +5,11 @@
 
 /* Set background color and font properties for body */
 body {
-    background-color: #ffffff;
-    /* Clean white background */
-    color: #333;
     font-family: 'Roboto', sans-serif;
-    /* Use Roboto Google Font */
-    margin: 0;
-    padding: 20px;
 }
 
 /* Center container and its contents vertically and horizontally */
-.container {
+/* .container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,10 +17,8 @@ body {
     max-width: 960px;
     margin: 0 auto;
     background-color: #ffffff;
-    /* Clean white background */
     padding: 20px;
-    /* Add some padding to separate from body */
-}
+} */
 
 /* Add spacing between buttons and style */
 button {
@@ -84,7 +76,8 @@ select#description-options {
 }
 
 /* Style labels */
-label {
+label,
+h1 {
     display: block;
     /* font-weight: bold; */
     font-size: 50px;
@@ -103,18 +96,17 @@ button#self-author {
 }
 
 /* Style book pages section */
-#book-pages {
+/* #book-pages {
     width: 100%;
 }
 
 #book-pages>div {
     background-color: #ffffff;
-    /* Clean white background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
-}
+} */
 
 /* Set max width and responsive image properties */
 img {
@@ -192,15 +184,10 @@ h1.logo-name {
     margin-top: 15px;
 }
 
-.styles\.pageContent img {
-    border: 1px solid #ddd;
-    padding: 10px;
-    background: white;
-}
-
 .styles\.pageContent h2 {
-    font-size: 11px;
+    font-size: 13px;
     color: rgb(255 51 116);
+    float: right;
 }
 
 .styles\.pageContent p {
@@ -209,7 +196,7 @@ h1.logo-name {
 
 p.styles\.bookDescription {
     background: rgb(255 51 116);
-    color: #fff;
+    color: rgb(92, 92, 92);
     padding: 10px;
 }
 
@@ -224,7 +211,8 @@ img.logo-image {
 }
 
 
-label {
+label,
+h1 {
     font-size: 5rem;
     font-weight: 300;
     background: linear-gradient(231deg, rgb(24, 182, 246), rgb(73, 208, 255));
@@ -247,17 +235,12 @@ a.menu-a {
     transition: background-color 0.1s ease;
     margin-left: 10px;
     font-weight: 400;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 1px 1px 2px #7f7f7f;
+    -webkit-text-fill-color: #f1f1f1c4;
+    text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);
 }
 
 a.menu-a:hover {
-    color: #ffffff;
-    font-size: 20px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
+    color: rgb(255 51 116);
 }
 
 .menu-nav {
@@ -303,7 +286,8 @@ a.menu-a:hover {
         font-weight: 400;
     }
 
-    label {
+    label,
+    h1 {
         display: block;
         /* font-weight: bold; */
         font-size: 30px;
@@ -319,4 +303,49 @@ svg.svg-inline--fa.fa-twitter,
 svg.svg-inline--fa.fa-facebook,
 svg.svg-inline--fa.fa-linkedin {
     color: #fff;
+}
+
+
+p.AllBook_description__g8byP,
+body {
+    font-size: 25px;
+    font-weight: 200;
+    color: #5e5e5e;
+}
+
+.AllBook_bookContainer__J_s2_,
+.styles\.pageContent {
+    position: relative;
+    margin: 1rem;
+    border: 2px solid rgba(240, 240, 240, 0.499);
+    border-radius: 4px 4px 4px 4px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h2 a {
+    font-size: 3rem;
+    font-weight: 300;
+    background: linear-gradient(231deg, rgb(24, 182, 246), rgb(73, 208, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 3px rgb(29 82 231 / 10%);
+}
+
+.styles\.pageContent img {
+    background: white;
+    position: relative;
+    margin: 1rem;
+    border: 2px solid rgba(240, 240, 240, 0.499);
+    border-radius: 4px 4px 4px 4px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+p.styles\.bookDescription {
+    background-color: transparent;
+    color: #ffffff;
 }

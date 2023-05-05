@@ -1,12 +1,3 @@
-/* BookPage.module.css */
-.header-section {
-    /* Add header styles here */
-}
-
-.menu-section {
-    /* Add menu styles here */
-}
-
 .book-page-section {
     display: flex;
     flex-direction: column;

@@ -5,7 +5,7 @@ import Menu from '../components/Menu';
 import Footer from '../components/Footer';
 import { db } from '../../firebase'; // Import the Firestore instance
 import { collection, doc, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
-import styles from './Book.module.css'; // Import the CSS module for this page
+import styles from './BookPages.module.css';
 
 export default function Book({ book }) {
     const router = useRouter();
