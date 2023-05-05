@@ -1,0 +1,72 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+/* CSS Variables for easy customization */
+:root {
+    --main-color: rgb(255, 51, 116);
+    --background-color: #f1f1f1;
+    --border-color: #ddd;
+    --text-color: #333;
+    --white: #fff;
+}
+
+/* book page */
+.styles\\.bookPage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.styles\\.bookTitle {
+    font-family: 'Bangers', cursive;
+    font-size: 48px;
+    color: var(--main-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.styles\\.pageContent {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.styles\\.pageContent img {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    background: var(--white);
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+.styles\\.pageContent h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 28px;
+    color: var(--main-color);
+    margin-bottom: 10px;
+}
+
+.styles\\.pageContent p {
+    font-size: 20px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+p.styles\\.bookDescription {
+    background: var(--main-color);
+    color: var(--white);
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 300;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
