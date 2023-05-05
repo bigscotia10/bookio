@@ -8,6 +8,7 @@ const Footer = () => {
                 <ShareButtons />
                 <p>App by <a href="https://appai.dev">https://appai.dev</a></p>
             </>
+            <div className="shooting-stars"></div>
         </footer>
     );
 };

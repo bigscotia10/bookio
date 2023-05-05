@@ -406,3 +406,37 @@ li {
 a {
     color: rgb(255 51 116);
 }
+
+
+/* I can't get the shooting starts to work, I added the div to header and foot ercompnents but no luck */
+.shooting-star {
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    animation: shooting-star 3s ease-out infinite;
+    transform: rotate(45deg);
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(45deg) translateX(100%);
+        opacity: 0;
+    }
+}
