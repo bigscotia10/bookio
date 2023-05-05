@@ -344,7 +344,7 @@ p.AllBook_description__g8byP,
 body {
     font-size: 25px;
     font-weight: 200;
-    color: #5e5e5e;
+    color: rgb(255 51 116);
 }
 
 .AllBook_bookContainer__J_s2_,
@@ -397,4 +397,12 @@ footer p {
 footer p a {
     text-align: center;
     color: #ccc;
+}
+
+li {
+    color: #fff;
+}
+
+a {
+    color: rgb(255 51 116);
 }
