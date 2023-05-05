@@ -269,21 +269,49 @@ a.menu-a:hover {
     }
 
     a.menu-a {
-        color: #ac7ff4;
-        font-size: 11px;
+        /* background-color: #f5f5f5;
+        border: 1px solid #ddd; */
+        border-radius: 4px;
+        color: #666;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        display: inline-block;
+        font-size: 12px;
         font-weight: 400;
-        margin: 1px;
+        padding: 10px 20px;
+        position: relative;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+        z-index: 1;
     }
 
-    a.menu-a:hover {
-        color: #ffffff;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        font-weight: 400;
+    a.menu-a:before {
+        background-color: #ac7ff4;
+        border-radius: 4px;
+        bottom: -4px;
+        content: '';
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: -4px;
+        z-index: -1;
+        transition: all 0.3s ease;
     }
+
+    a.menu-a:hover:before {
+        transform: scale(1.05);
+        background-color: #ac7ff4;
+    }
+
+    a.menu-a:active {
+        transform: translateY(2px);
+    }
+
+    a.menu-a:active:before {
+        transform: scale(0.98);
+    }
+
+
 
     label,
     h1 {
