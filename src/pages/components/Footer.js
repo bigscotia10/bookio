@@ -5,6 +5,7 @@ const Footer = () => {
     return (
         <footer>
             <>
+                <p><a href="/instructions">Instructions</a></p>
                 <ShareButtons />
                 <p>App by <a href="https://appai.dev">https://appai.dev</a></p>
             </>
