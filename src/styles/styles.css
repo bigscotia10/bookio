@@ -214,15 +214,23 @@ p.styles\.bookDescription {
 }
 
 body {
-    background: #151934;
+    background: linear-gradient(to right, #151934, #2f3c6e);
     color: #ffffff;
     overflow-x: hidden;
 }
 
+img.logo-image {
+    border: 1px solid #c1c32b75;
+}
+
+
 label {
-    color: #18b6f6;
     font-size: 5rem;
     font-weight: 300;
+    background: linear-gradient(231deg, rgb(24, 182, 246), rgb(73, 208, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 3px rgb(29 82 231 / 10%);
 }
 
 /* #ac7ff4 */
@@ -232,13 +240,15 @@ button:hover {
 }
 
 a.menu-a {
-    color: #ac7ff4;
+    color: #ffffff;
     font-size: 20px;
     cursor: pointer;
     margin-top: 20px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease;
     margin-left: 10px;
     font-weight: 400;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px #7f7f7f;
 }
 
 a.menu-a:hover {
@@ -303,4 +313,10 @@ a.menu-a:hover {
 .ShareButtons_shareButtons__Y_Yiu {
     font-size: 35px;
     margin-top: 25px;
+}
+
+svg.svg-inline--fa.fa-twitter,
+svg.svg-inline--fa.fa-facebook,
+svg.svg-inline--fa.fa-linkedin {
+    color: #fff;
 }
