@@ -269,22 +269,21 @@ a.menu-a:hover {
     }
 
     a.menu-a {
-        /* background-color: #f5f5f5;
-        border: 1px solid #ddd; */
-        border-radius: 4px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
         color: #666;
         cursor: pointer;
         display: inline-block;
         font-size: 12px;
         font-weight: 400;
-        /* padding: 10px 20px; */
-        /* position: unset; */
-        transition: all 0.3s ease;
+        padding-bottom: 20px;
         text-decoration: none;
         text-transform: uppercase;
-        /* z-index: 1; */
-        padding-bottom: 20px;
+        transition: all 0.3s ease;
     }
+
 
     a.menu-a:before {
         background-color: #ac7ff4;
