@@ -4,7 +4,7 @@ import Link from 'next/link';
 const Menu = () => {
     return (
         <nav className="menu-nav">
-            <h1 className="logo-name">Beanbook</h1>
+            <img src="/littlebean.png" alt="LITTLEBEAN Logo" className="logo-image" />
             <ul className="menu-ul">
                 <li className="menu-li">
                     <Link href="/" className="menu-a">
