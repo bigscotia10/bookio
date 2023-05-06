@@ -376,7 +376,9 @@ h2 a {
     border-radius: 4px 4px 4px 4px;
     padding: 1rem;
     background: #fff;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 46%);
+    padding: 1px;
+    margin: 1px;
 }
 
 p.styles\.bookDescription {
@@ -439,4 +441,15 @@ a {
         transform: rotate(45deg) translateX(100%);
         opacity: 0;
     }
+}
+
+.AllBook_bookContainer__J_s2_,
+.styles\.pageContent {
+    margin: 1px;
+}
+
+
+.styles\.pageContent p {
+    font-size: 25px;
+    color: #000;
 }
