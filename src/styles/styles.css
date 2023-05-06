@@ -453,3 +453,10 @@ a {
     font-size: 25px;
     color: #000;
 }
+
+p.AllBook_description__g8byP,
+body {
+    font-size: 25px;
+    font-weight: 200;
+    color: #151934;
+}
