@@ -40,9 +40,38 @@
     text-shadow: 2px 2px 3px rgb(29 82 231 / 10%);
 } */
 
-.bookContainer:after {
+/* .bookContainer:after {
     left: 0;
     bottom: 0;
     right: 0;
     height: 40px;
+} */
+
+.booksContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.bookContainer {
+    flex-basis: calc(32% - 20px);
+    margin-bottom: 30px;
+}
+
+.rowSeparator {
+    width: 100%;
+    height: 20px;
+    clear: both;
+}
+
+/* Display books one at a time on small screens */
+@media (max-width: 767px) {
+    .booksContainer {
+        display: block;
+    }
+
+    .bookContainer {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
 }

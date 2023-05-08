@@ -51,13 +51,11 @@ function AllBooks() {
                 <Menu />
             </nav>
             <h1 className={styles.title}>All Books</h1>
-            <div>
-                {books.map((book) => (
+            <div className={styles.booksContainer}>
+                {books.map((book, index) => (
                     <div key={book.id} className={styles.bookContainer}>
                         <h2>
-                            <Link href={`/book/${book.id}`}>
-                                {book.title}
-                            </Link>
+                            <Link href={`/book/${book.id}`}>{book.title}</Link>
                         </h2>
                         {book.firstPage && book.firstPage.image && (
                             <img
@@ -67,6 +65,7 @@ function AllBooks() {
                             />
                         )}
                         <p className={styles.description}>{book.description}</p>
+                        {((index + 1) % 3 === 0) && <div className={styles.rowSeparator} />}
                     </div>
                 ))}
             </div>
@@ -75,6 +74,7 @@ function AllBooks() {
             </footer>
         </div>
     );
+
 }
 
 export default AllBooks;

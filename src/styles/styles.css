@@ -460,3 +460,13 @@ body {
     font-weight: 200;
     color: #151934;
 }
+
+button#savebutton {
+    background: #5ae25a;
+    width: 200px;
+    border: 1px solid #ddd6;
+}
+
+button#imagesbutton {
+    background: #ac7ff4;
+}

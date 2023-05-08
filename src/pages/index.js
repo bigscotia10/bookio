@@ -247,29 +247,32 @@ export default function Home() {
       <label htmlFor="book-title">Book Title:</label>
       <input type="text" placeholder="What's your book title?" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
       <div>
-        <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
+        {/* Disabling the pick a story idea for now, add it back to include the predefined stories from the select list */}
+        {/* <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
           <option value="">Optional, Pick a story idea</option>
           {Object.keys(descriptionPrompts).map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
 
-        </select>
+        </select> */}
       </div>
 
       <label htmlFor="book-description">Book Description:</label>
       <input type="text" placeholder="Tell us all about your book!" id="book-description" name="book-description" value={bookDescription} onChange={event => setBookDescription(event.target.value)} required />
 
       <button onClick={generateContent} disabled={isLoading}>
+
         {isLoading ? (
-          "Loading..."
+          "Please wait... AI doing it's thing "
         ) : (
           "Generate Text"
         )}
+
       </button>
 
       {showPages && (
-        <button onClick={generateAll} disabled={bookContent.length === 0 || isLoading}>
-          {isLoading ? "Loading..." : "Generate Images"}
+        <button id="imagesbutton" onClick={generateAll} disabled={bookContent.length === 0 || isLoading}>
+          {isLoading ? "Please wait, AI images coming soon..." : "Generate Images"}
         </button>
       )}
 
@@ -284,7 +287,7 @@ export default function Home() {
                 <div>
                   {/* <input type="file" id={`page-${index}-image`} name={`page-${index}-image`} onChange={event => updateImage(event, index)} /> */}
                   <button onClick={() => generateImage(index, bookContent[index].text)}>
-                    {loadingImageIndex === 0 ? "Loading..." : "Generate Image"}
+                    {loadingImageIndex === 0 ? "Please wait, AI Images on their way..." : "Generate Image"}
                   </button>
                 </div>
               )}
@@ -297,12 +300,13 @@ export default function Home() {
         </div>
       )}
 
-      <button onClick={() => {
+      {/* // Disabiling toggle button, that allows you to manually add pages. */}
+      {/* <button onClick={() => {
         if (bookContent.length === 0) {
           setBookContent([{ text: '', image: '' }]);
         }
         setShowPages(prevShowPages => !prevShowPages);
-      }}>Toggle Book Pages</button>
+      }}>Toggle Book Pages</button> */}
 
 
       <div id="book-pages">
@@ -327,7 +331,13 @@ export default function Home() {
       </div>
 
       {/* <button onClick={downloadAsPDF}>Download as PDF</button> */}
-      <button
+      {showPages && (
+        <button id="imagesbutton" onClick={generateAll} disabled={bookContent.length === 0 || isLoading}>
+          {isLoading ? "Please wait... " : "Generate Images"}
+        </button>
+      )}
+
+      <button id="savebutton"
         onClick={saveBookToFirebase}
         disabled={!isAnyPageFilledIn() || !bookTitle || !bookDescription || isLoading}
       >
