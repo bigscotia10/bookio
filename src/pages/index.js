@@ -23,11 +23,11 @@ export default function Home() {
   const router = useRouter();
 
   const descriptionPrompts = {
-    'Hey Lisa': `Eamon, a 3-year-old boy, asks Lisa questions about outdoor topics like mountains, animals, weather, and trees. The questions start with "Hey Lisa," and Lisa provides a response. Create a story with alternating pages of Eamon's questions and Lisa's answers.`,
+    // 'Hey Lisa': `Eamon, a 3-year-old boy, asks Lisa questions about outdoor topics like mountains, animals, weather, and trees. The questions start with "Hey Lisa," and Lisa provides a response. Create a story with alternating pages of Eamon's questions and Lisa's answers.`,
     'Wee Muckys Adventures': `Wee Mucky is a female West Highland Terrier who loves chasing squirrels and eating cheese. Write a story about her humorous adventures in Portland, Oregon, Cape May, New Jersey, and New York City.`,
-    'Egogo Adventures': `Egogo, a 3-year-old toddler, can transform into different animals, such as crabs, and behave like them. Create a story about his cute and funny adventures in Portland, Oregon, with his best friend BK.`,
-    'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
-    'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May. Eamon goes to visit Papa and Tata and they go on fun adventures to the beach and to find shells and spot dolphins.`,
+    // 'Egogo Adventures': `Egogo, a 3-year-old toddler, can transform into different animals, such as crabs, and behave like them. Create a story about his cute and funny adventures in Portland, Oregon, with his best friend BK.`,
+    // 'Its Marmie Day': `Egogo, a 3-year-old toddler, and his grandmother Marmie go on different adventures around Portland, OR. They go to the zoo, the icecreme shop, for hikes, as well as fun bike rides.`,
+    // 'Papa and Tata': `Papa and Tata, Eamons grandparents live Cape May. Eamon goes to visit Papa and Tata and they go on fun adventures to the beach and to find shells and spot dolphins.`,
     'Seaweed Monster': 'A green seaweed monster called the Waye Aye Man, who lives in the caves of Roker, Sunderland and steals peoples left over fish and chips.',
     'Porsche the Speedster': 'Porsche, a little car named Speedster, is a brave and adventurous car that loves to drive through super fast helping people kids get to the toy shop faster than ever before.',
     'Super Fast: The Train': 'In a world where toy trains transform into lifesize trains: Super Fast, the fastest train ever built. Super Fasts mission is to held toddlers find hidden chocolate in the secret island of Chocoslania',
@@ -248,13 +248,13 @@ export default function Home() {
       <input type="text" placeholder="What's your book title?" id="book-title" name="book-title" value={bookTitle} onChange={event => setBookTitle(event.target.value)} maxLength={250} required />
       <div>
         {/* Disabling the pick a story idea for now, add it back to include the predefined stories from the select list */}
-        {/* <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
+        <select id="description-options" onChange={event => setBookDescription(event.target.value)}>
           <option value="">Optional, Pick a story idea</option>
           {Object.keys(descriptionPrompts).map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
 
-        </select> */}
+        </select>
       </div>
 
       <label htmlFor="book-description">Book Description:</label>
