@@ -9,8 +9,11 @@ const Footer = () => {
                 <Link href="/instructions/">
                     <p>Instructions</p>
                 </Link>
+                <br />
+                <p>App made with ❤️</p>
+                <p>by <a href="https://appai.dev">AppAI.dev</a></p>
+                <br />
                 <ShareButtons />
-                <p>App by <a href="https://appai.dev">https://appai.dev</a></p>
             </>
             <div className="shooting-stars"></div>
         </footer>
