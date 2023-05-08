@@ -263,9 +263,9 @@ export default function Home() {
       <button onClick={generateContent} disabled={isLoading}>
 
         {isLoading ? (
-          "Please wait... AI doing it's thing "
+          "Please wait... AI is doing it's thing "
         ) : (
-          "Generate Text"
+          "Generate Book"
         )}
 
       </button>
