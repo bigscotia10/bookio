@@ -207,7 +207,9 @@ body {
 }
 
 img.logo-image {
-    border: 1px solid #c1c32b75;
+    border: 3px solid #d0d32775;
+    border-radius: 15px;
+
 }
 
 
@@ -247,25 +249,25 @@ a.menu-a:hover {
     position: relative;
 }
 
-.logo-image {
-    position: absolute;
-    top: 0;
-    right: 0;
-    /* Adjust the height as needed */
-    width: auto;
-    margin: 10px;
-    width: 245px;
-    height: 138px;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
+
+.logo-image {
+    height: 200px;
+    padding: 5px;
+}
+
 
 /* This media query applies styles for screens with a max-width of 767px, typically mobile devices */
 @media (max-width: 767px) {
+    
     .logo-image {
-        height: 60px;
-        /* Smaller height for mobile devices */
-        position: relative;
-        margin-right: 20px;
-        font-size: 18px;
+        height: 120px;
+        padding: 5px;
     }
 
     a.menu-a {
@@ -319,12 +321,6 @@ a.menu-a:hover {
         /* font-weight: bold; */
         font-size: 30px;
         margin-top: 45px;
-    }
-
-    .logo-image {
-        width: 144px;
-        height: 80px;
-        margin-top: 43px;
     }
 }
 
