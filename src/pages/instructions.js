@@ -21,7 +21,7 @@ function Instructions() {
                     <li className={styles.instructionsListItem}>Create a book title.</li>
                     <li className={styles.instructionsListItem}>Choose or write book details.</li>
                     <li className={styles.instructionsListItem}>Describe your idea.</li>
-                    <li className={styles.instructionsListItem}>Click 'Generate Text' for automatic content.</li>
+                    <li className={styles.instructionsListItem}>Click &apos;Generate Text&apos; for automatic content.</li>
                     <li className={styles.instructionsListItem}>Edit content as needed.</li>
                     <li className={styles.instructionsListItem}>Generate images for each page.</li>
                     <li className={styles.instructionsListItem}>Save your book when satisfied.</li>
