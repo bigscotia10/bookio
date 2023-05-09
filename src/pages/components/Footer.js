@@ -6,9 +6,9 @@ const Footer = () => {
     return (
         <footer>
             <>
-                <Link href="/instructions/">
+                {/* <Link href="/instructions/">
                     <p>Instructions</p>
-                </Link>
+                </Link> */}
                 <br />
                 <p>App made with ❤️</p>
                 <p>by <a href="https://appai.dev">AppAI.dev</a></p>
