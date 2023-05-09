@@ -10,7 +10,7 @@ const Footer = () => {
                     <p>Instructions</p>
                 </Link> */}
                 <br />
-                <p>App made with ❤️</p>
+                <p>App made with &hearts;</p>
                 <p>by <a href="https://appai.dev">AppAI.dev</a></p>
                 <br />
                 <ShareButtons />
