@@ -9,15 +9,15 @@ const ShareButtons = () => {
 
     return (
         <div className={styles.shareButtons}>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https://bookio.appai.dev/" target="_blank" rel="noopener noreferrer" className={styles.facebook}>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://littlebean.appai.dev/" target="_blank" rel="noopener noreferrer" className={styles.facebook}>
                 <FontAwesomeIcon icon={faFacebook} />
             </a>
 
-            <a href="https://twitter.com/intent/tweet?url=https://bookio.appai.dev/&text=Check%20out%20Bookio!&via=BookioApp" target="_blank" rel="noopener noreferrer" className={styles.twitter}>
+            <a href="https://twitter.com/intent/tweet?url=https://littlebean.appai.dev/&text=Check%20out%20LittleBean!&via=LittleBeanApp" target="_blank" rel="noopener noreferrer" className={styles.twitter}>
                 <FontAwesomeIcon icon={faTwitter} />
             </a>
 
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://bookio.appai.dev/" target="_blank" rel="noopener noreferrer" className={styles.linkedin}>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://littlebean.appai.dev/" target="_blank" rel="noopener noreferrer" className={styles.linkedin}>
                 <FontAwesomeIcon icon={faLinkedin} />
             </a>
 
